@@ -4,7 +4,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx,mjs,mjs.map}',
   ],
   theme: {
     extend: {},
@@ -13,3 +13,5 @@ export default {
   plugins: [require('flowbite/plugin')],
 };
 
+// 
+// 'node_modules/flowbite-react/dist/esm/components/**/*.{js,jsx,ts,tsx,mjs,mjs.map}',

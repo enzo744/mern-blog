@@ -1,31 +1,40 @@
-import { Alert, Button, Label, TextInput } from "flowbite-react";
+import { Button, Alert, TextInput, Label, Spinner } from "flowbite-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!formData.username || !formData.email || formData.password){
-      return setErrorMessage("Riempire tutti i campi!")
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage("Please fill out all fields.");
     }
     try {
+      setLoading(true);
+      setErrorMessage(null);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data=await res.json();
-      if(data.success === false){
-        setErrorMessage(data.error);
+      const data = await res.json();
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+      setLoading(false);
+      if (res.ok) {
+        navigate("/sign-in");
       }
     } catch (error) {
-      
+      setErrorMessage(error.message);
+      setLoading(false);
     }
   };
   return (
@@ -61,7 +70,7 @@ export default function SignUp() {
               <Label value="Your email" />
               <TextInput
                 type="email"
-                placeholder="nome@dominio.com"
+                placeholder="name@company.com"
                 id="email"
                 onChange={handleChange}
               />
@@ -70,37 +79,39 @@ export default function SignUp() {
               <Label value="Your password" />
               <TextInput
                 type="password"
-                placeholder="*********"
+                placeholder="Password"
                 id="password"
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone="" type="submit">
-              Sign Up
-            </Button>
-            {/* <Button color="purple">Purple</Button> */}
-
-            {/* Purple to Pink */}
-            <button
+            <Button  
+              gradientDuoTone="purpleToPink"
               type="submit"
-              className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              disabled={loading}
             >
-              Sign Up
-            </button>
+              {loading ? (
+                <>
+                  {/* <Spinner size="sm" /> */}
+                  <Spinner color="success" aria-label="Success spinner example" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Sign Up"
+              )}
+            </Button>
+            {/* <OAuth /> */}
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an account?</span>
-            <Link to="/sign-in" className="text-blue-600">
+            <Link to="/sign-in" className="text-blue-500">
               Sign In
             </Link>
           </div>
-          {
-            errorMessage &&(
-              <Alert className="mt-5" color="failure">
-                {errorMessage}
-              </Alert>
-            )
-          }
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>
