@@ -30,6 +30,7 @@ export default function DashProfile() {
       uploadImage();
     }
   }, [imageFile]);
+
   const uploadImage = async () => {
     // service firebase.storage {
     //   match /b/{bucket}/o {
@@ -41,6 +42,7 @@ export default function DashProfile() {
     //     }
     //   }
     // }
+
     setImageFileUploadError(null);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
@@ -55,7 +57,7 @@ export default function DashProfile() {
       },
       (error) => {
         setImageFileUploadError(
-          "Could not upload image (File must be less than 2MB"
+          "Could not upload image (File must be less than 2MB)"
         );
         setImageFileUploadProgress(null);
         setImageFile(null);
@@ -109,7 +111,7 @@ export default function DashProfile() {
             ${
               imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
-              "opacity-50"
+              "opacity-60"
             }`}
           />
         </div>
