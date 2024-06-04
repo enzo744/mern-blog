@@ -143,7 +143,7 @@ export default function CreatePost() {
           <img
             src={formData.image}
             alt="upload"
-            className="w-full h-72 object-contain"
+            className="w-full h-72 object-cover"
           />
         )}
         <ReactQuill
