@@ -49,7 +49,24 @@ export default function DashUsers() {
   };
 
   const handleDeleteUser=async ()=>{
-
+    try {
+        //dispatch(deleteUserStart());
+        const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (res.ok) {
+            setUsers((prev)=>prev.filter((user)=>user._id !== userIdToDelete));
+            setShowModal(false);
+        //   dispatch(deleteUserFailure(data.message));
+        } else {
+        //   dispatch(deleteUserSuccess(data));
+        console.log(data.message);
+        }
+      } catch (error) {
+        // dispatch(deleteUserFailure(error.message));
+        console.log(error.message);
+      }
   }
 
   return (
@@ -122,11 +139,11 @@ export default function DashUsers() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400 ">
-              Sicuro di voler eliminare questo utente?
+              Sicuro di voler eliminare questo utente? 
             </h3>
             <div className="flex justify-center gap-4">
-              <Button onClick={handleDeleteUser} color="failure">
-                Si, sono sicuro
+              <Button color="failure" onClick={handleDeleteUser} >
+                Si, sono sicuro 
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, annulla
