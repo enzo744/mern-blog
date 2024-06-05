@@ -243,7 +243,7 @@ export default function DashProfile() {
           outline
           disabled={loading || imageFileUploading}
         >
-          {loading ? "Loading..." : "Update"}
+          {loading ? "Loading..." : "Update profile"}
         </Button>
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
@@ -252,7 +252,7 @@ export default function DashProfile() {
               gradientDuoTone="purpleToPink"
               className="w-full"
             >
-              Create a post
+              Create a new post
             </Button>
           </Link>
         )}
