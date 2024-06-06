@@ -7,7 +7,7 @@ body {
   }
   
   .ql-editor {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
   
   .post-content p {
@@ -15,16 +15,16 @@ body {
   }
   
   .post-content h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 600;
     font-family: sans-serif;
-    margin: 1.5rem 0;
+    margin: 1.4rem 0;
   }
   
   .post-content h2 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-family: sans-serif;
-    margin: 1.5rem 0;
+    margin: 1.4rem 0;
   }
   
   .post-content a {
@@ -37,5 +37,14 @@ body {
   }
   
   .dark .post-content a {
-    color: red;
+    color: #e1b99a;
+  }
+  .dark .post-content h3 {
+    color: #e1ee6d;
+  }
+  .dark .post-content h2 {
+    color: #d7ca6d;
+  }
+  .dark .post-content h1 {
+    color: #4ee6e6;
   }
