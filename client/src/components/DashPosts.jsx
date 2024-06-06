@@ -83,7 +83,9 @@ export default function DashPosts() {
               <Table.HeadCell>Post title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell> Edit</Table.HeadCell>
+              <Table.HeadCell>
+                <span>Edit</span>
+              </Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
               <Table.Body className="divide-y" key={post._id}>
@@ -116,7 +118,7 @@ export default function DashPosts() {
                         setPostIdToDelete(post._id);
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
-                      >
+                    >
                       Delete
                     </span>
                   </Table.Cell>
@@ -124,7 +126,7 @@ export default function DashPosts() {
                     <Link
                       className="font-medium text-teal-600 hover:underline"
                       to={`/update-post/${post._id}`}
-                     >
+                    >
                       <span>Edit</span>
                     </Link>
                   </Table.Cell>
