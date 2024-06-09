@@ -5,7 +5,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 
-export default function Comment({ comment, onLike, onEdit }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
@@ -31,12 +31,12 @@ export default function Comment({ comment, onLike, onEdit }) {
     setEditedContent(comment.content);
   };
 
-  const handleSave=async ()=>{
+  const handleSave = async () => {
     try {
       const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           content: editedContent,
@@ -82,15 +82,19 @@ export default function Comment({ comment, onLike, onEdit }) {
             />
             <div className="flex justify-end gap-2 text-xs">
               <Button
-              type="button" size='xs' gradientDuoTone='purpleToBlue'
-              onClick={handleSave}
+                type="button"
+                size="xs"
+                gradientDuoTone="purpleToBlue"
+                onClick={handleSave}
               >
                 Save
               </Button>
               <Button
-              type="button" size='xs' gradientDuoTone='purpleToBlue'
-              outline
-              onClick={()=>setIsEditing(false)}
+                type="button"
+                size="xs"
+                gradientDuoTone="purpleToBlue"
+                outline
+                onClick={() => setIsEditing(false)}
               >
                 Cancel
               </Button>
@@ -119,13 +123,22 @@ export default function Comment({ comment, onLike, onEdit }) {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    onClick={handleEdit}
-                    type="button"
-                    className="text-gray-400 hover:text-blue-600"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      onClick={handleEdit}
+                      type="button"
+                      className="text-gray-400 hover:text-blue-600"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(comment._id)}
+                      type="button"
+                      className="text-gray-400 hover:text-red-600"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
