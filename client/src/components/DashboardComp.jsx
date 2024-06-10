@@ -129,7 +129,7 @@ export default function DashboardComp() {
           <div className="flex justify-between p-3 text-sm font-semibold">
             <h1 className="text-center p-2">Utenti recenti</h1>
             <Button outline gradientDuoTone="purpleToBlue">
-              <Link to={"/dashboard?tab=users"}>Visualizza tutti</Link>
+              <Link to={"/dashboard?tab=users"}>Tutti</Link>
             </Button>
           </div>
           <Table hoverable>
@@ -159,7 +159,7 @@ export default function DashboardComp() {
           <div className="flex justify-between p-3 text-sm font-semibold">
             <h1 className="text-center p-2">Commenti recenti</h1>
             <Button outline gradientDuoTone="purpleToBlue">
-              <Link to={"/dashboard?tab=comments"}>Visualizza tutti</Link>
+              <Link to={"/dashboard?tab=comments"}>Tutti</Link>
             </Button>
           </div>
           <Table hoverable>
