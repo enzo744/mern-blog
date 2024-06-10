@@ -105,6 +105,7 @@ export default function CommentSection({ postId }) {
         method: 'DELETE',
       });
       if (res.ok) {
+        // eslint-disable-next-line no-unused-vars
         const data = await res.json();
         setComments(comments.filter((comment) => comment._id !== commentId));
       }
