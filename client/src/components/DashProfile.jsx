@@ -22,6 +22,7 @@ import {
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -167,6 +168,12 @@ export default function DashProfile() {
       console.log(error.message);
     }
   };
+
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -231,12 +238,23 @@ export default function DashProfile() {
           defaultValue={currentUser.email}
           onChange={handleChange}
         />
-        <TextInput
-          type="password"
-          placeholder="Password"
-          id="password"
-          onChange={handleChange}
-        />
+
+        <div className="relative text-2xl">
+          <TextInput
+            className="w-full"
+            type={open === false ? "password" : "text"}
+            placeholder="Password"
+            id="password"
+            onChange={handleChange}
+          />
+          <div className="absolute top-2 right-3">
+            {open === false ? (
+              <AiFillEye onClick={toggle} />
+            ) : (
+              <AiFillEyeInvisible onClick={toggle} />
+            )}
+          </div>
+        </div>
         <Button
           type="submit"
           gradientDuoTone="purpleToBlue"

@@ -1,7 +1,8 @@
 import { Button, Alert, TextInput, Label, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import OAuth from '../components/OAuth';
+import OAuth from "../components/OAuth";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -37,6 +38,13 @@ export default function SignUp() {
       setLoading(false);
     }
   };
+
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    setOpen(!open);
+  };
+
+  
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -75,16 +83,23 @@ export default function SignUp() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <Label value="Your password" />
+            <div className="relative text-2xl">
               <TextInput
-                type="password"
+                className="w-full"
+                type={open === false ? "password" : "text"}
                 placeholder="Password"
                 id="password"
                 onChange={handleChange}
               />
+              <div className="absolute top-2 right-3">
+                {open === false ? (
+                  <AiFillEye onClick={toggle} />
+                ) : (
+                  <AiFillEyeInvisible onClick={toggle} />
+                )}
+              </div>
             </div>
-            <Button  
+            <Button
               gradientDuoTone="purpleToPink"
               type="submit"
               disabled={loading}
@@ -92,7 +107,10 @@ export default function SignUp() {
               {loading ? (
                 <>
                   {/* <Spinner size="sm" /> */}
-                  <Spinner color="success" aria-label="Success spinner example" />
+                  <Spinner
+                    color="success"
+                    aria-label="Success spinner example"
+                  />
                   <span className="pl-3">Loading...</span>
                 </>
               ) : (

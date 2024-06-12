@@ -8,6 +8,7 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import OAuth from '../components/OAuth';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -42,6 +43,12 @@ export default function SignIn() {
       dispatch(signInFailure(error.message));
     }
   };
+
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -71,14 +78,21 @@ export default function SignIn() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <Label value="Your password" />
+            <div className="relative text-2xl">
               <TextInput
-                type="password"
-                placeholder="********"
+                className="w-full"
+                type={open === false ? "password" : "text"}
+                placeholder="Password"
                 id="password"
                 onChange={handleChange}
               />
+              <div className="absolute top-2 right-3">
+                {open === false ? (
+                  <AiFillEye onClick={toggle} />
+                ) : (
+                  <AiFillEyeInvisible onClick={toggle} />
+                )}
+              </div>
             </div>
             <Button
               gradientDuoTone="purpleToPink"
