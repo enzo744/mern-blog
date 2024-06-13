@@ -25,7 +25,7 @@ export default function CreatePsw() {
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type="text"
-              placeholder="Title*"
+              placeholder="Title* (campo obblig. ed unico)"
               required
               id="title"
               className="flex-1"
