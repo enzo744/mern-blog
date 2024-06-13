@@ -255,22 +255,37 @@ export default function DashProfile() {
             )}
           </div>
         </div>
+         {/* UPDATE Profile */}
         <Button
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
           disabled={loading || imageFileUploading}
-        >
+         >
           {loading ? "Loading..." : "Update profile"}
         </Button>
+
+        {/* CREAZIONE POST */}
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
             <Button
               type="button"
               gradientDuoTone="purpleToPink"
               className="w-full"
-            >
+             >
               Create a new post
+            </Button>
+          </Link>
+        )}
+         {/* CREAZIONE PSW */}
+        {currentUser.isAdmin && (
+          <Link to={"/create-psw"}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToBlue"
+              className="w-full"
+             >
+              Create a new psw
             </Button>
           </Link>
         )}
