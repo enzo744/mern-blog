@@ -1,27 +1,52 @@
-import { Button, Select, TextInput, Textarea } from "flowbite-react";
+import { Alert, Button, Select, TextInput, Textarea } from "flowbite-react";
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePsw() {
   const [open, setOpen] = useState(false);
   const toggle = () => {
     setOpen(!open);
   };
+  const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+  const navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ((length > 600)) {
-      return;
+    try {
+      const res=await fetch("/api/psw/create",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify(formData),
+      });
+      const data=await res.json();
+      if(!res.ok){
+        setPublishError(data.message);
+        return;
+      }
+      // if(data.success === false){
+      //   setPublishError(data.message);
+      //   return;
+      // }
+      if(res.ok){
+        setPublishError(null);
+        navigate(`/psw/${data.slug}`);
+        return;
+      }
+    } catch (error) {
+      setPublishError("Qualcosa e' andato storto");
     }
-  }
+  };
   return (
-    <div className="min-h-screen mt-20">
+    <div className="min-h-screen mt-16">
       <div className="max-w-lg mx-auto p-3 w-full">
         <h1 className="text-center text-3xl my-7 font-semibold">
           Create page psw
         </h1>
-        <form onSubmit={handleSubmit}
-        className="flex flex-col gap-4 maw-w-600">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 maw-w-600">
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type="text"
@@ -29,11 +54,16 @@ export default function CreatePsw() {
               required
               id="title"
               className="flex-1"
-              // onChange={(e) =>
-              //   setFormData({ ...formData, title: e.target.value })
-              // }
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
             />
-            <Select>
+            <Select
+              id="category"
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
               <option value="nessuna">Nessuna categoria</option>
               <option value="ufficio">Ufficio</option>
               <option value="personali">Personali</option>
@@ -46,7 +76,9 @@ export default function CreatePsw() {
               type="email"
               placeholder="name@company.com"
               id="email"
-              // onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
           </div>
           <div className="relative text-2xl">
@@ -55,7 +87,9 @@ export default function CreatePsw() {
               type={open === false ? "password" : "text"}
               placeholder="Password"
               id="password"
-              // onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
             <div className="absolute top-2 right-3">
               {open === false ? (
@@ -66,24 +100,21 @@ export default function CreatePsw() {
             </div>
           </div>
           <Textarea
-              placeholder="Aggiungi commento... Max 600 caratteri"
-               rows='10'
-               maxLength="600"
-              id="commento"
-            //   value={comment}
-              className="flex-1"
-              // onChange={(e) =>
-              //   setFormData({ ...formData, commento: e.target.value })
-              // }
-            />
-            {/* <div className="flex justify-between items-center">
-            <p className="text-gray-500 text-sm">
-              Max 600 caratteri
-            </p>
-          </div> */}
+            placeholder="Aggiungi commento... Max 600 caratteri"
+            rows="10"
+            maxLength="600"
+            id="commento"
+            className="flex-1"
+            onChange={(e) =>
+              setFormData({ ...formData, commento: e.target.value })
+            }
+          />
           <Button outline gradientDuoTone="purpleToBlue" type="submit">
-              Salva dati
-            </Button>
+            Salva dati
+          </Button>
+          {publishError && <Alert className="mt-4" color='failure'>
+            {publishError}
+          </Alert>}
         </form>
       </div>
     </div>
