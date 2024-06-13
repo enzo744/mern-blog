@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { Button, Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -151,7 +150,7 @@ export default function DashPosts() {
         onClose={() => setShowModal(false)}
         popup
         size="md"
-      >
+       >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

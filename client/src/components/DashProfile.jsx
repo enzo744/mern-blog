@@ -176,7 +176,7 @@ export default function DashProfile() {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
+      <h1 className="my-7 text-center font-serif text-3xl">Profilo</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -224,14 +224,14 @@ export default function DashProfile() {
         {imageFileUploadError && (
           <Alert color="failure">{imageFileUploadError}</Alert>
         )}
-        <TextInput
+        <TextInput className="font-serif"
           type="text"
           id="username"
           placeholder="Username"
           defaultValue={currentUser.username}
           onChange={handleChange}
         />
-        <TextInput
+        <TextInput className="font-serif"
           type="email"
           placeholder="Email"
           id="email"
@@ -241,7 +241,7 @@ export default function DashProfile() {
 
         <div className="relative text-2xl">
           <TextInput
-            className="w-full"
+            className="w-full font-serif"
             type={open === false ? "password" : "text"}
             placeholder="Password"
             id="password"
@@ -256,24 +256,24 @@ export default function DashProfile() {
           </div>
         </div>
          {/* UPDATE Profile */}
-        <Button
+        <Button className="font-serif"
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
           disabled={loading || imageFileUploading}
          >
-          {loading ? "Loading..." : "Update profile"}
+          {loading ? "Loading..." : "Aggiorna profilo"}
         </Button>
 
         {/* CREAZIONE POST */}
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
-            <Button
+            <Button 
               type="button"
               gradientDuoTone="purpleToPink"
-              className="w-full"
+              className="w-full font-serif"
              >
-              Create a new post
+              Crea un nuovo post
             </Button>
           </Link>
         )}
@@ -283,18 +283,18 @@ export default function DashProfile() {
             <Button
               type="button"
               gradientDuoTone="purpleToBlue"
-              className="w-full"
+              className="w-full font-serif"
              >
-              Create a new psw
+              Crea nuova voce
             </Button>
           </Link>
         )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span onClick={() => setShowModal(true)} className="cursor-pointer">
+        <span onClick={() => setShowModal(true)} className="cursor-pointer font-serif">
           Delete Account
         </span>
-        <span onClick={handleSignout} className="cursor-pointer">
+        <span onClick={handleSignout} className="cursor-pointer font-serif">
           Sign Out
         </span>
       </div>

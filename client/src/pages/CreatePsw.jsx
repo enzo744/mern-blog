@@ -43,22 +43,22 @@ export default function CreatePsw() {
   return (
     <div className="min-h-screen mt-16">
       <div className="max-w-lg mx-auto p-3 w-full">
-        <h1 className="text-center text-3xl my-7 font-semibold">
-          Create page psw
+        <h1 className="text-center text-3xl my-7 font-serif">
+          Modulo: crea nuova voce
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 maw-w-600">
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type="text"
-              placeholder="Title* (campo obblig. ed unico)"
+              placeholder="Nome voce* (campo obblig. ed unico)"
               required
               id="title"
-              className="flex-1"
+              className="flex-1 font-serif"
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
             />
-            <Select
+            <Select className="font-serif"
               id="category"
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
@@ -72,9 +72,9 @@ export default function CreatePsw() {
             </Select>
           </div>
           <div className="">
-            <TextInput
+            <TextInput className="font-serif"
               type="email"
-              placeholder="name@company.com"
+              placeholder="Inserire solo formato email (xxxx@dominio.com)"
               id="email"
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -83,7 +83,7 @@ export default function CreatePsw() {
           </div>
           <div className="relative text-2xl">
             <TextInput
-              className=""
+              className="font-serif"
               type={open === false ? "password" : "text"}
               placeholder="Password"
               id="password"
@@ -104,12 +104,12 @@ export default function CreatePsw() {
             rows="10"
             maxLength="600"
             id="commento"
-            className="flex-1"
+            className="flex-1 font-serif"
             onChange={(e) =>
               setFormData({ ...formData, commento: e.target.value })
             }
           />
-          <Button outline gradientDuoTone="purpleToBlue" type="submit">
+          <Button outline gradientDuoTone="purpleToBlue" type="submit" className="font-serif">
             Salva dati
           </Button>
           {publishError && <Alert className="mt-4" color='failure'>
