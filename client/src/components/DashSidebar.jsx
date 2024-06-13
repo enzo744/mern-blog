@@ -7,6 +7,7 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
   HiUser,
+  HiLockClosed,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -74,6 +75,17 @@ export default function DashSidebar() {
                 as="div"
               >
                 Posts
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="/dashboard?tab=psws">
+              <Sidebar.Item
+                active={tab === "psws"}
+                icon={HiLockClosed}
+                as="div"
+              >
+                Voci Psw
               </Sidebar.Item>
             </Link>
           )}
