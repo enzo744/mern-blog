@@ -31,7 +31,7 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const getPsws = async (req, res, next) => {
+export const getpsws = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
@@ -53,29 +53,29 @@ export const getPsws = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-      const totalPsws=await Psw.countDocuments();
-      const now=new Date();
+    const totalPsws = await Psw.countDocuments();
+    const now = new Date();
 
-      const oneMonthAgo = new Date(
-        now.getFullYear(),
-        now.getMonth() - 1,
-        now.getDate()
-      );
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
 
-      const lastMonthPsws = await Psw.countDocuments({
-        createdAt: { $gte: oneMonthAgo },
-      });
-      res.status(200).json({
-        psws,
-        totalPsws,
-        lastMonthPsws,
-      });
+    const lastMonthPsws = await Psw.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    res.status(200).json({
+      psws,
+      totalPsws,
+      lastMonthPsws,
+    });
   } catch (error) {
     next(error);
   }
 };
 
-export const deletepsw =async (req,res,next)=>{
+export const deletepsw = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, "You are not allowed to delete this psw"));
   }
@@ -85,4 +85,28 @@ export const deletepsw =async (req,res,next)=>{
   } catch (error) {
     next(error);
   }
-}
+};
+
+export const updatepsw = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to update this psw"));
+  }
+  try {
+    const updatePsw = await Psw.findByIdAndUpdate(
+      req.params.pswId,
+      {
+        $set: {
+          title: req.body.title,
+          category: req.body.category,
+          email: req.body.email,
+          password: req.body.password,
+          commento: req.body.commento,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatePsw);
+  } catch (error) {
+    next(error);
+  }
+};
