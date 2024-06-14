@@ -1,5 +1,5 @@
 import { Button, Modal, Table } from "flowbite-react";
-import { useEffect,useState } from "react"
+import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ export default function DashPsws() {
   const [showModal, setShowModal] = useState(false);
   const [pswIdToDelete, setPswIdToDelete] = useState("");
   useEffect(() => {
-    const fetchPsws=async ()=>{
+    const fetchPsws = async () => {
       try {
         const res = await fetch(`/api/psw/getpsws?userId=${currentUser._id}`);
         const data = await res.json();
@@ -25,7 +25,7 @@ export default function DashPsws() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin){
+    if (currentUser.isAdmin) {
       fetchPsws();
     }
   }, [currentUser._id]);
@@ -48,9 +48,25 @@ export default function DashPsws() {
     }
   };
 
-  const handleDeletePsw= async ()=>{
-
-  }
+  const handleDeletePsw = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `/api/psw/deletepsw/${pswIdToDelete}/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserPsws((prev) => prev.filter((psw) => psw._id !== pswIdToDelete));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
@@ -61,18 +77,23 @@ export default function DashPsws() {
               <Table.HeadCell>Data Aggiornamento</Table.HeadCell>
               <Table.HeadCell>Titolo</Table.HeadCell>
               <Table.HeadCell>Categoria</Table.HeadCell>
-              <Table.HeadCell><span>Edit</span></Table.HeadCell>
+              <Table.HeadCell>
+                <span>Edit</span>
+              </Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
-            {userPsws.map((psw)=>(
+            {userPsws.map((psw) => (
               <Table.Body className="divide-y" key={psw._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>
                     {new Date(psw.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link className="font-serif text-gray-900 dark:text-white" to={`/psw/${psw.slug}`}>
-                    {psw.title}
+                    <Link
+                      className="font-serif text-gray-900 dark:text-white"
+                      to={`/psw/${psw.slug}`}
+                    >
+                      {psw.title}
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{psw.category}</Table.Cell>
@@ -85,12 +106,14 @@ export default function DashPsws() {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    <span onClick={()=>{
-                      setShowModal(true);
-                      setPswIdToDelete(psw._id);
-                    }}
-                    className="font-medium text-red-500 hover:underline cursor-pointer">
-                      Delete
+                    <span
+                      onClick={() => {
+                        setShowModal(true);
+                        setPswIdToDelete(psw._id);
+                      }}
+                      className="font-medium text-red-500 hover:underline cursor-pointer"
+                    >
+                      Elimina
                     </span>
                   </Table.Cell>
                 </Table.Row>
@@ -106,7 +129,7 @@ export default function DashPsws() {
             </button>
           )}
         </>
-      ):(
+      ) : (
         <p>Non ci sono voci</p>
       )}
       <Modal
@@ -114,7 +137,7 @@ export default function DashPsws() {
         onClose={() => setShowModal(false)}
         popup
         size="md"
-       >
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

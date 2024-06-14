@@ -74,3 +74,15 @@ export const getPsws = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deletepsw =async (req,res,next)=>{
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to delete this psw"));
+  }
+  try {
+    await Psw.findByIdAndDelete(req.params.pswId);
+    res.status(200).json("The psw has been deleted");
+  } catch (error) {
+    next(error);
+  }
+}

@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/create-psw" element={<CreatePsw />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
-          <Route path="/update-psw/:postId" element={<UpdatePsw />} />
+          <Route path="/update-psw/:pswId" element={<UpdatePsw />} />
         </Route>
       </Routes>
       <Footer/>
