@@ -6,6 +6,10 @@ const pswSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    content: {
+      type: String,
+      required:true,
+    },
     title: {
       type: String,
       required: true,
@@ -15,9 +19,6 @@ const pswSchema = new mongoose.Schema(
       type: String,
     },
     password: {
-      type: String,
-    },
-    commento: {
       type: String,
     },
     category: {

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { CiEdit } from "react-icons/ci";
+import { MdOutlineDelete, MdAddCircleOutline } from "react-icons/md";
 
 export default function DashPsws() {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,6 +12,7 @@ export default function DashPsws() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [pswIdToDelete, setPswIdToDelete] = useState("");
+
   useEffect(() => {
     const fetchPsws = async () => {
       try {
@@ -72,15 +75,33 @@ export default function DashPsws() {
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPsws.length > 0 ? (
         <>
+          {/* <div className="text-teal-500 text-2xl font-serif mb-3">
+          <h1 className="items-center">Lista voci memorizzate</h1>
+        </div> */}
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Data Aggiornamento</Table.HeadCell>
               <Table.HeadCell>Titolo</Table.HeadCell>
+              <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Categoria</Table.HeadCell>
               <Table.HeadCell>
-                <span>Edit</span>
+                <Link
+                  className=""
+                  to={`/create-psw`}
+                >
+                  <span>
+                    <MdAddCircleOutline className="h-6 w-6 text-yellow-400" />
+                  </span>
+                </Link>
               </Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell>
+                <span>
+                  <CiEdit className="h-6 w-6" />
+                </span>
+              </Table.HeadCell>
+              <Table.HeadCell>
+                <MdOutlineDelete className="h-6 w-6" />
+              </Table.HeadCell>
             </Table.Head>
             {userPsws.map((psw) => (
               <Table.Body className="divide-y" key={psw._id}>
@@ -96,15 +117,28 @@ export default function DashPsws() {
                       {psw.title}
                     </Link>
                   </Table.Cell>
-                  <Table.Cell>{psw.category}</Table.Cell>
+                  <Table.Cell>
+                    <span>{psw.email}</span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span>{psw.category}</span>
+                  </Table.Cell>
+                  <Table.Cell>
+                      <span>
+                        <MdAddCircleOutline className="h-6 w-6 opacity-60" />
+                      </span>
+                  </Table.Cell>
                   <Table.Cell>
                     <Link
-                      className="font-medium text-teal-600 hover:underline"
+                      className="text-teal-600 hover:underline"
                       to={`/update-psw/${psw._id}`}
                     >
-                      <span>Edit</span>
+                      <span>
+                        <CiEdit className="h-6 w-6" />
+                      </span>
                     </Link>
                   </Table.Cell>
+
                   <Table.Cell>
                     <span
                       onClick={() => {
@@ -113,7 +147,7 @@ export default function DashPsws() {
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
-                      Elimina
+                      <MdOutlineDelete className="h-6 w-6" />
                     </span>
                   </Table.Cell>
                 </Table.Row>
@@ -143,7 +177,7 @@ export default function DashPsws() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400 ">
-              Sicuro di voler eliminare questa voce?
+              Sicuro di voler eliminare questa voce? {}
             </h3>
             <div className="flex justify-center gap-4">
               <Button onClick={handleDeletePsw} color="failure">

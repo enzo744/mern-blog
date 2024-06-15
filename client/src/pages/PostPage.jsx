@@ -66,7 +66,7 @@ export default function PostPage() {
       <Link
         to={`/search?category=${post && post.category}`}
         className='self-center mt-5'
-      >
+       >
         <Button color='gray' pill size='xs'>
           {post && post.category}
         </Button>

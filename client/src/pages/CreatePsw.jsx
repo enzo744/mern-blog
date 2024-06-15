@@ -1,7 +1,11 @@
-import { Alert, Button, Select, TextInput, Textarea } from "flowbite-react";
+import { Alert, Button, Select, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { HiOutlineArrowLeft } from "react-icons/hi";
+
 
 export default function CreatePsw() {
   const [open, setOpen] = useState(false);
@@ -10,20 +14,20 @@ export default function CreatePsw() {
   };
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res=await fetch("/api/psw/create",{
+      const res = await fetch("/api/psw/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body:JSON.stringify(formData),
+        body: JSON.stringify(formData),
       });
-      const data=await res.json();
-      if(!res.ok){
+      const data = await res.json();
+      if (!res.ok) {
         setPublishError(data.message);
         return;
       }
@@ -31,7 +35,7 @@ export default function CreatePsw() {
       //   setPublishError(data.message);
       //   return;
       // }
-      if(res.ok){
+      if (res.ok) {
         setPublishError(null);
         navigate(`/psw/${data.slug}`);
         return;
@@ -44,7 +48,7 @@ export default function CreatePsw() {
     <div className="min-h-screen mt-16">
       <div className="max-w-lg mx-auto p-3 w-full">
         <h1 className="text-center text-3xl my-7 font-serif">
-          Modulo: crea nuova voce
+          Crea nuova voce
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 maw-w-600">
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -58,7 +62,8 @@ export default function CreatePsw() {
                 setFormData({ ...formData, title: e.target.value })
               }
             />
-            <Select className="font-serif"
+            <Select
+              className="font-serif"
               id="category"
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
@@ -72,7 +77,8 @@ export default function CreatePsw() {
             </Select>
           </div>
           <div className="">
-            <TextInput className="font-serif"
+            <TextInput
+              className="font-serif"
               type="email"
               placeholder="Inserire solo formato email (xxxx@dominio.com)"
               id="email"
@@ -93,28 +99,44 @@ export default function CreatePsw() {
             />
             <div className="absolute top-2 right-3">
               {open === false ? (
-                <AiFillEye onClick={toggle} />
+                <AiFillEye onClick={toggle} className="cursor-pointer"/>
               ) : (
-                <AiFillEyeInvisible onClick={toggle} />
+                <AiFillEyeInvisible onClick={toggle} className="cursor-pointer"/>
               )}
             </div>
           </div>
-          <Textarea
-            placeholder="Aggiungi commento... Max 600 caratteri"
-            rows="10"
-            maxLength="600"
-            id="commento"
-            className="flex-1 font-serif"
-            onChange={(e) =>
-              setFormData({ ...formData, commento: e.target.value })
-            }
+          <ReactQuill
+            theme="snow"
+            placeholder="Scrivi qualcosa..."
+            className="h-72 mb-12"
+            onChange={(value) => setFormData({ ...formData, content: value })}
           />
-          <Button outline gradientDuoTone="purpleToBlue" type="submit" className="font-serif">
-            Salva dati
-          </Button>
-          {publishError && <Alert className="mt-4" color='failure'>
-            {publishError}
-          </Alert>}
+          <div className="flex flex-row gap-4">
+          <Link to="/dashboard?tab=psws">
+              <Button
+                outline
+                gradientDuoTone="tealToLime"
+                type="submit"
+                className="font-serif"
+              >
+                <HiOutlineArrowLeft className="h-6 w-6" />
+              </Button>
+            </Link>
+            <Button
+              outline
+              gradientDuoTone="greenToBlue"
+              type="submit"
+              className="font-serif w-full"
+            >
+              Salva dati
+            </Button>
+            
+          </div>
+          {publishError && (
+            <Alert className="mt-4" color="failure">
+              {publishError}
+            </Alert>
+          )}
         </form>
       </div>
     </div>

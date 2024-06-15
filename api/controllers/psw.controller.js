@@ -7,8 +7,8 @@ export const create = async (req, res, next) => {
       errorHandler(403, "Non sei autorizzato a creare la pagina Psw")
     );
   }
-  if (!req.body.title) {
-    return next(errorHandler(400, "Il campo Titolo e' obbligatorio"));
+  if (!req.body.title || !req.body.content) {
+    return next(errorHandler(400, "Il campo Titolo e' Content sono obbligatori"));
   }
 
   const slug = req.body.title
@@ -39,13 +39,13 @@ export const getpsws = async (req, res, next) => {
     const psws = await Psw.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
-      ...(req.query.title && { title: req.query.title }),
+      // ...(req.query.title && { title: req.query.title }),
       ...(req.query.slug && { slug: req.query.slug }),
       ...(req.query.pswId && { _id: req.query.pswId }),
       ...(req.query.searchTerm && {
         $or: [
           { title: { $regex: req.query.searchTerm, $options: "i" } },
-          { commento: { $regex: req.query.searchTerm, $options: "i" } },
+          { content: { $regex: req.query.searchTerm, $options: "i" } },
         ],
       }),
     })
@@ -92,7 +92,7 @@ export const updatepsw = async (req, res, next) => {
     return next(errorHandler(403, "You are not allowed to update this psw"));
   }
   try {
-    const updatePsw = await Psw.findByIdAndUpdate(
+    const updatedPsw = await Psw.findByIdAndUpdate(
       req.params.pswId,
       {
         $set: {
@@ -100,12 +100,12 @@ export const updatepsw = async (req, res, next) => {
           category: req.body.category,
           email: req.body.email,
           password: req.body.password,
-          commento: req.body.commento,
+          content: req.body.content,
         },
       },
       { new: true }
     );
-    res.status(200).json(updatePsw);
+    res.status(200).json(updatedPsw);
   } catch (error) {
     next(error);
   }

@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
 import CreatePsw from "./pages/CreatePsw";
 import UpdatePsw from "./pages/UpdatePsw";
+import PswPage from "./pages/PswPage";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
+        <Route path="/psw/:pswSlug" element={<PswPage />} />
         <Route  element={<PrivateRoute />} >
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>

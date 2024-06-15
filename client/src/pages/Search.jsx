@@ -20,9 +20,9 @@ export default function Search() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    const sortFromUrl = urlParams.get('sort');
-    const categoryFromUrl = urlParams.get('category');
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const sortFromUrl = urlParams.get("sort");
+    const categoryFromUrl = urlParams.get("category");
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
@@ -33,26 +33,26 @@ export default function Search() {
     }
 
     const fetchPosts = async () => {
-        setLoading(true);
-        const searchQuery = urlParams.toString();
-        const res = await fetch(`/api/post/getposts?${searchQuery}`);
-        if (!res.ok) {
-          setLoading(false);
-          return;
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await fetch(`/api/post/getposts?${searchQuery}`);
+      if (!res.ok) {
+        setLoading(false);
+        return;
+      }
+      if (res.ok) {
+        const data = await res.json();
+        setPosts(data.posts);
+        setLoading(false);
+        if (data.posts.length === 9) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
         }
-        if (res.ok) {
-          const data = await res.json();
-          setPosts(data.posts);
-          setLoading(false);
-          if (data.posts.length === 9) {
-            setShowMore(true);
-          } else {
-            setShowMore(false);
-          }
-        }
-      };
-      fetchPosts();
-    }, [location.search]);
+      }
+    };
+    fetchPosts();
+  }, [location.search]);
 
   const handleChange = (e) => {
     if (e.target.id === "searchTerm") {
@@ -82,7 +82,7 @@ export default function Search() {
     const numberOfPosts = posts.length;
     const startIndex = numberOfPosts;
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set('startIndex', startIndex);
+    urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(`/api/post/getposts?${searchQuery}`);
     if (!res.ok) {
@@ -96,9 +96,14 @@ export default function Search() {
       } else {
         setShowMore(false);
       }
+
+      if (data.psws.length === 9) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
     }
   };
-
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -127,7 +132,6 @@ export default function Search() {
               onChange={handleChange}
               value={sidebarData.category}
               id="category"
-            //   className="w-30"
             >
               <option value="nessuna">Nessuna</option>
               <option value="reactjs">React.js</option>
@@ -148,14 +152,17 @@ export default function Search() {
           {!loading && posts.length === 0 && (
             <p className="text-xl text-gray-500">Non ci sono Post!</p>
           )}
+
           {loading && <p className="text-xl text-gray-500">Loading...</p>}
+
           {!loading &&
             posts &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
-            {showMore && (
+
+          {showMore && (
             <button
               onClick={handleShowMore}
-              className='text-teal-500 text-lg hover:underline p-7 w-full'
+              className="text-teal-500 text-lg hover:underline p-7 w-full"
             >
               Mostra altri
             </button>

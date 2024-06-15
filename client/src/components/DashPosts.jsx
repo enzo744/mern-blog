@@ -150,7 +150,7 @@ export default function DashPosts() {
         onClose={() => setShowModal(false)}
         popup
         size="md"
-       >
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

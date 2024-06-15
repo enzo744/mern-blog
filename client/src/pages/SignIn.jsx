@@ -88,9 +88,9 @@ export default function SignIn() {
               />
               <div className="absolute top-2 right-3">
                 {open === false ? (
-                  <AiFillEye onClick={toggle} />
+                  <AiFillEye onClick={toggle} className="cursor-pointer"/>
                 ) : (
-                  <AiFillEyeInvisible onClick={toggle} />
+                  <AiFillEyeInvisible onClick={toggle} className="cursor-pointer"/>
                 )}
               </div>
             </div>

@@ -1,8 +1,11 @@
-import { Alert, Button, Select, TextInput, Textarea } from "flowbite-react";
+import { Alert, Button, Select, TextInput} from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 
 export default function UpdatePsw() {
   const [open, setOpen] = useState(false);
@@ -68,12 +71,9 @@ export default function UpdatePsw() {
     }
   };
   return (
-    <div className="min-h-screen mt-16">
-      <div className="max-w-lg mx-auto p-3 w-full">
-        <h1 className="text-center text-3xl my-7 font-serif">
-          Modulo: Aggiorna voce
-        </h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 maw-w-600">
+    <div className="p-3 max-w-3xl mx-auto min-h-screen">
+        <h1 className="text-center text-3xl my-7 font-serif">Aggiorna voce</h1>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput
               type="text"
@@ -126,38 +126,44 @@ export default function UpdatePsw() {
             />
             <div className="absolute top-2 right-3">
               {open === false ? (
-                <AiFillEye onClick={toggle} />
+                <AiFillEye onClick={toggle} className="cursor-pointer"/>
               ) : (
-                <AiFillEyeInvisible onClick={toggle} />
+                <AiFillEyeInvisible onClick={toggle} className="cursor-pointer"/>
               )}
             </div>
           </div>
-          <Textarea
-            placeholder="Aggiungi commento... Max 600 caratteri"
-            rows="10"
-            maxLength="600"
-            id="commento"
-            className="flex-1 font-serif"
-            onChange={(e) =>
-              setFormData({ ...formData, commento: e.target.value })
-            }
-            value={formData.commento}
+
+          <ReactQuill 
+            theme="snow"
+            value={formData.content}
+            placeholder="Scrivi qualcosa..."
+            className="h-72 mb-12 color: text-blue-700 dark:text-gray-200"
+            onChange={(value) => setFormData({ ...formData, content: value })}
           />
-          <Button
-            outline
-            gradientDuoTone="purpleToBlue"
-            type="submit"
-            className="font-serif"
-          >
-            Aggiorna dati
-          </Button>
+          <div className="flex flex-row gap-4">
+          <Link to="/dashboard?tab=psws">
+              <Button outline
+              gradientDuoTone="pinkToOrange"
+              type="submit"
+              >
+                <HiOutlineArrowLeft className="h-6 w-6" />
+              </Button>
+            </Link>
+            <Button
+              type="submit"
+              gradientDuoTone="redToYellow"
+              outline
+              // className="font-serif w-full"
+            >
+              Aggiorna dati
+            </Button>
+          </div>
           {publishError && (
             <Alert className="mt-4" color="failure">
               {publishError}
             </Alert>
           )}
         </form>
-      </div>
     </div>
   );
 }
