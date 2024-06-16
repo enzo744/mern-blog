@@ -1,5 +1,21 @@
 import Psw from "../models/psw.model.js";
 import { errorHandler } from "../utils/error.js";
+import PasswordCriptata from "../models/passwordcriptata.model.js";
+
+export const criptapsw = async (req, res, next) => {
+  if (!req.body.password) {
+    return next(errorHandler(400, "Il campo password non utilizzato"));
+  }
+  const { password } = req.body;
+
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+
+  const newPasswordCriptata = new PasswordCriptata({
+    password: hashedPassword,
+  });
+
+  password: newPasswordCriptata;
+};
 
 export const create = async (req, res, next) => {
   if (!req.user.isAdmin) {
@@ -8,7 +24,9 @@ export const create = async (req, res, next) => {
     );
   }
   if (!req.body.title || !req.body.content) {
-    return next(errorHandler(400, "Il campo Titolo e' Content sono obbligatori"));
+    return next(
+      errorHandler(400, "Il campo Titolo e Content sono obbligatori")
+    );
   }
 
   const slug = req.body.title

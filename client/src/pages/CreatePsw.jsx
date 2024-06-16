@@ -7,7 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
 
-export default function CreatePsw() {
+export default function CreatePsw() { 
   const [open, setOpen] = useState(false);
   const toggle = () => {
     setOpen(!open);
